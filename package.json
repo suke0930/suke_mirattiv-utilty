@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/suke0930/suke_mirattiv-utilty#readme",
   "devDependencies": {
+    "@types/ws": "^8.5.5",
     "ts-loader": "^9.4.4",
     "typescript": "^5.2.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "ws": "^8.13.0"
   }
 }
