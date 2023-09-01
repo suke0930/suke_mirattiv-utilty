@@ -11,6 +11,7 @@
         "src/**/*.ts"
     ],
     "exclude": [
+        "*/tempermonkey/",
         "node_modules"
     ]
 }
