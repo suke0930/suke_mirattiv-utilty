@@ -1,0 +1,23 @@
+{
+  "name": "suke_mirattiv-utilty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suke0930/suke_mirattiv-utilty.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suke0930/suke_mirattiv-utilty/issues"
+  },
+  "homepage": "https://github.com/suke0930/suke_mirattiv-utilty#readme",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
