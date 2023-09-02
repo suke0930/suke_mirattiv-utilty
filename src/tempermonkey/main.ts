@@ -7,9 +7,11 @@ async function main() {
             const wscli = new WebSocket("ws://localhost:8085");
             const comment = await commentcli.on();
             console.log(comment);
-
             wscli.send(JSON.stringify(comment));
-            wscli.close();
+            setTimeout(() => {
+                wscli.close();
+            }, 50);
+
         }
 
     }, 2000);
