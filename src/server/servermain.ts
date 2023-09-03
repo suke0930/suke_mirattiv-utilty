@@ -6,13 +6,17 @@ interface comment {
     comment: string[],
     eventtype: string
 }
+interface resultgetcomnet {
+    name: string
+    comment: string
+}
 async function main() {
     const wscli = new WebSocket.Server({ port: 8085 })
     const yomiagecli = new BouyomiChanClient("localhost", "50002");
     wscli.on('connection', (socket) => {
         console.log(`New client connected`);
         socket.on('message', (message) => {
-            const rawdata = JSON.parse(message.toString())
+            const rawdata: resultgetcomnet = JSON.parse(message.toString());
             const paserrawdata = pasers.extractTextWithouthtmltags(rawdata.comment);
             const eventtype = pasers.whatevent(paserrawdata);
             const data: comment = {
@@ -20,17 +24,17 @@ async function main() {
                 comment: paserrawdata,
                 eventtype: eventtype
             };
+            socket.send(JSON.stringify({ data: rawdata.comment }));//データーの整合性確認
             console.log(data);
             const yomiagedata = converteyomiage(data);
-            console.log(yomiagedata);
             yomiagecli.talk(yomiagedata);
-
         });
         socket.on('close', () => {
             console.log('Client disconnected');
         });
     });
 }
+
 function converteyomiage(data: comment) {
     if (data.name === "null") {
         let msgdata: string = ""
@@ -47,3 +51,4 @@ function converteyomiage(data: comment) {
     }
 }
 main();
+

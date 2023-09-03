@@ -1,4 +1,4 @@
-interface resultgetcomnet {
+export interface resultgetcomnet {
     name: string
     comment: string
 }
@@ -12,7 +12,7 @@ class commentutl {
         if (document.getElementsByClassName(this.elementpath)?.[0]?.innerHTML) {
             // let dummyelement = document.getElementsByTagName('ul');
             this.dummyelement.innerHTML = document.getElementsByClassName(this.elementpath)[0].innerHTML;
-            this.lengh = this.dummyelement.children.length
+            this.lengh = this.dummyelement.children.length + 1;
         } else {
             this.lengh = -1;
         }
@@ -44,8 +44,8 @@ class commentutl {
      */
     checknewcomment(length: number) {
         if (length != -1) {
-            if (this.lengh < length) {
-                this.lengh = length;
+            if (this.lengh <= length) {
+                this.lengh++;
                 return true;
             } else {
                 return false;

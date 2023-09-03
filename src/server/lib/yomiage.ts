@@ -32,21 +32,21 @@ export class BouyomiChanClient {
     socket_onopen(e: any) {
         let data = this.makeBouyomiChanDataToSend(this.cmntStr);
         this.socket.send(data.buffer);
-        console.log("socket_onopen");
+        //     console.log("socket_onopen");
     }
 
     socket_onerror(e: any) {
-        console.log("socket_onerror");
+        //    console.log("socket_onerror");
         console.log(e);
         this.socket.close();
     }
 
     socket_onclose(e: any) {
-        console.log("socket_onclose");
+        //    console.log("socket_onclose");
     }
 
     socket_onmessage(e: any) {
-        console.log("socket_onmessage");
+        //  console.log("socket_onmessage");
         //console.log(e.data);
 
         this.socket.close();

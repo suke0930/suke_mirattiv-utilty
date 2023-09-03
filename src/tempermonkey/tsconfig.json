@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "commonjs",
+        "outDir": "dist",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true, // 厳格モードを有効にする
+        "noImplicitAny": true // 暗黙のanyをエラーにする
+    },
+    "include": [
+        "/**/*.ts",
+        "*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
