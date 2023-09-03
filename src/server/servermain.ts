@@ -1,6 +1,7 @@
 import WebSocket = require("ws");
 import { pasers } from './lib/paser'
 import { BouyomiChanClient } from './lib/yomiage'
+let timeout = 0;
 interface comment {
     name: string,
     comment: string[],
@@ -27,7 +28,14 @@ async function main() {
             socket.send(JSON.stringify({ data: rawdata.comment }));//データーの整合性確認
             console.log(data);
             const yomiagedata = converteyomiage(data);
-            yomiagecli.talk(yomiagedata);
+            setTimeout(() => {
+                timeout += 50;
+                setTimeout(() => {
+                    timeout -= 50;
+                }, 50);
+                yomiagecli.talk(yomiagedata);
+            }, timeout);
+
         });
         socket.on('close', () => {
             console.log('Client disconnected');

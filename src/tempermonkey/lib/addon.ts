@@ -30,7 +30,7 @@ class commentutl {
 
         if (this.dummyelement.children[0].textContent === 'ここにコメントが表示されます') {//コメント表示プレびゅとかいう悪魔
             //      console.log("発火")
-            this.lengh = -1
+            this.lengh = 1
             return -1;
         } else {
             return this.dummyelement.children.length;
@@ -45,7 +45,9 @@ class commentutl {
     checknewcomment(length: number) {
         if (length != -1) {
             if (this.lengh <= length) {
+
                 this.lengh++;
+
                 return true;
             } else {
                 return false;
