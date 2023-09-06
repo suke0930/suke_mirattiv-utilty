@@ -32,18 +32,17 @@ async function sendmessege(comment: resultgetcomnet) {
                 break;
         }
     }, timeout);
-
 }
 async function main() {
     setTimeout(async () => {
-
         const commentcli = new commentgeter(100);
-        while (true === true) {
-            const comment = await commentcli.on();//コメントのイベント待機
+        commentcli.debuglengh(1000);
+        commentcli.on((comment: resultgetcomnet) => {
             console.log(comment);
             sendmessege(comment);
-        }
+        })
+
+
     }, 2000);
 }
-
 main();

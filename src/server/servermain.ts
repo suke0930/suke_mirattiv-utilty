@@ -33,16 +33,14 @@ async function main() {
                 setTimeout(() => {
                     timeout -= 50;
                 }, 50);
-                yomiagecli.talk(yomiagedata);
+                //   yomiagecli.talk(yomiagedata);
             }, timeout);
-
         });
         socket.on('close', () => {
             console.log('Client disconnected');
         });
     });
 }
-
 function converteyomiage(data: comment) {
     if (data.name === "null") {
         let msgdata: string = ""
