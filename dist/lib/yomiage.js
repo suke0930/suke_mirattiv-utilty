@@ -24,18 +24,18 @@ var BouyomiChanClient = /** @class */ (function () {
     BouyomiChanClient.prototype.socket_onopen = function (e) {
         var data = this.makeBouyomiChanDataToSend(this.cmntStr);
         this.socket.send(data.buffer);
-        console.log("socket_onopen");
+        //     console.log("socket_onopen");
     };
     BouyomiChanClient.prototype.socket_onerror = function (e) {
-        console.log("socket_onerror");
+        //    console.log("socket_onerror");
         console.log(e);
         this.socket.close();
     };
     BouyomiChanClient.prototype.socket_onclose = function (e) {
-        console.log("socket_onclose");
+        //    console.log("socket_onclose");
     };
     BouyomiChanClient.prototype.socket_onmessage = function (e) {
-        console.log("socket_onmessage");
+        //  console.log("socket_onmessage");
         //console.log(e.data);
         this.socket.close();
     };

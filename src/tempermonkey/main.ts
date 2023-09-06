@@ -36,7 +36,7 @@ async function sendmessege(comment: resultgetcomnet) {
 async function main() {
     setTimeout(async () => {
         const commentcli = new commentgeter(100);
-        commentcli.debuglengh(1000);
+        //   commentcli.debuglengh(1000);
         commentcli.on((comment: resultgetcomnet) => {
             console.log(comment);
             sendmessege(comment);
