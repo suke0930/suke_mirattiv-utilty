@@ -31,13 +31,13 @@ class commentutl {
         }
     };
     /**
-     * クラス名からhtmlコレクションを取得し、コレクション子のlenghを返す関数
-     * @param name 取得したいクラス名
-     * @returns 結果のlengh
+     * htmlコレクションを取得してくる
+     * @returns 取得したコレクション
      */
     gethtmlchild() {
         let dummy = document.createElement('ul');
         const rawHTMLobj = document.getElementsByClassName(this.elementpath);
+        if (!rawHTMLobj[0]) { console.log("まだ準備が出来てないよ！"); return null; }
         const raw_to_inner = rawHTMLobj[0].innerHTML;
         this.dummyelement.innerHTML = rawHTMLobj[0].innerHTML;
         // let dummyelement = document.getElementsByTagName('ul');
@@ -52,12 +52,19 @@ class commentutl {
      * @param dummyelement HTMlえれめんと
      * @returns {resultgetcomnet}新しいコメントの配列
      */
-    checknewcomment(dummyelement: HTMLUListElement) {
+    checknewcomment(dummyelement: HTMLUListElement | null) {
+        const Getcommentnull = {
+            name: "null",
+            comment: "null"
+        }
+        if (dummyelement === null) { return [] }
         let resultdata: resultgetcomnet[] = [];
         if (this.last[1].data !== null) {//lastがnullか
-            //それ以外
             const latestcomment = this.getnewcomments(dummyelement, 0);
-            if (latestcomment === this.last[1].data) {//連続したコメント
+            //それ以外
+            // if (latestcomment === this.last[1].data) {//連続したコメント
+            if (this.issimilarobj(latestcomment, this.getnewcomments(dummyelement, 0))) {//連続したコメント
+
                 if (this.last[2].data === null) {//last2はnullか？
                     //last2はnull
                     //チルドレンの長さを使う
@@ -83,8 +90,9 @@ class commentutl {
                     let count = 0;//last1 とlast2のあいだ
                     for (let index = 0; index < lengh; index++) {
                         const nowcomment = this.getnewcomments(dummyelement, index);
-                        if (nowcomment === this.last[2].data) break;
-                        count++
+                        //   if (nowcomment === this.last[2].data) break;
+                        if (this.issimilarobj(nowcomment, this.last[2].data))
+                            count++
                     }
                     if (this.last[1].leng === count) {//算出値が同じ
                         //処理を終了
@@ -107,23 +115,43 @@ class commentutl {
 
                 }
             } else {//新規コメントが来た場合
-                if (this.last[1].data === this.getnewcomments(dummyelement, 1)) {//新規コメントが１件なら
+
+                console.log("---------")
+                console.log(this.last[1].data)
+                console.log(this.getnewcomments(dummyelement, 1))
+                console.log("---------")
+                // console.log(this.last[1].data)
+                // console.log(this.getnewcomments(dummyelement, 1))
+                // console.log("---------")
+                //console.log((this.last[1].data === this.getnewcomments(dummyelement, 1)));
+                console.log(this.issimilarobj(this.last[1].data, this.getnewcomments(dummyelement, 1)));
+
+                console.log((this.getnewcomments(dummyelement, 1).comment === "null" && this.getnewcomments(dummyelement, 1).name === "null"))
+
+
+                if (this.issimilarobj(this.last[1].data, this.getnewcomments(dummyelement, 1)) || this.issimilarobj(this.getnewcomments(dummyelement, 1), this.checknewcomment)) {//新規コメントが１件なら
+
                     resultdata.push(this.getnewcomments(dummyelement, 0));
                     this.last[1].data = this.getnewcomments(dummyelement, 0);
-                    this.last[2].data = this.getnewcomments(dummyelement, 1);
+
+                    if ((this.getnewcomments(dummyelement, 1).comment === "null" && this.getnewcomments(dummyelement, 1).name === "null")) {
+                        this.last[2].data = this.getnewcomments(dummyelement, 1);
+                    }
                     this.last[1].leng = 0;
                 } else {//１件でない場合
+
                     const latestcomment = this.getnewcomments(dummyelement, 0);
                     const childleng = dummyelement.children.length//安全装置
                     for (let index = 0; index < childleng; index++) {
                         const data = this.getnewcomments(dummyelement, index);
-                        if (this.last[1].data === data) {//data1を引いた場合
+                        //     if (this.last[1].data === data) {//data1を引いた場合
+                        if (this.issimilarobj(this.last[1].data, data)) {//data1を引いた場合
                             break;
                         } else {
                             resultdata.push(data);
                         }
                     }
-                    if (latestcomment === this.getnewcomments(dummyelement, 1)) {//最初の１件が連続していないかチェック
+                    if (this.issimilarobj(latestcomment, this.getnewcomments(dummyelement, 1))) {//最初の１件が連続していないかチェック
                         let count = 0;//連続していた場合
                         for (let index = 1; childleng; index++) {
                             const data = this.getnewcomments(dummyelement, index);
@@ -142,6 +170,7 @@ class commentutl {
                 }
             }
         } else if (this.last[1].data === null) { //nullの場合
+
             if (dummyelement.children) {//チルドレンが存在するか
                 if (dummyelement.children[0]) {//チルドレンの中身が存在するか
                     if (dummyelement.children[0].textContent) {//テキストは存在するか？
@@ -150,10 +179,12 @@ class commentutl {
                             resultdata = [];//処理を終了
                         } else {
                             //最新のコメントが来ている
+
                             const latestcomment = this.getnewcomments(dummyelement, 0);
                             resultdata.push(latestcomment);
                             this.last[1].data = latestcomment;
                             this.last[1].leng = 0;
+                            //      console.log(this.last[1].data)
                         }
                     }
                 }
@@ -207,6 +238,19 @@ class commentutl {
             console.log("インターバル解除")
         } else {
             console.log("nullじゃねぇか！")
+        }
+    }
+    /**
+     * オブジェクトが同じ要素がどうか比べる
+     * @param obj1 比較１
+     * @param obj2 比較２
+     * @returns boolean.trueならobj1とobj2は同じ
+     */
+    issimilarobj(obj1: resultgetcomnet, obj2: resultgetcomnet) {
+        if (obj1.comment === obj2.comment && obj1.name === obj2.name) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -39,7 +39,7 @@ async function main() {
         //   commentcli.debuglengh(1000);
         commentcli.on((comment: resultgetcomnet) => {
             console.log(comment);
-            sendmessege(comment);
+            // sendmessege(comment);
         })
 
 
