@@ -14,7 +14,15 @@ class commentutl {
     private dummydebug: HTMLElement
     private debugintervalid: NodeJS.Timeout | null
     private last: lastdatas
+    private testmode: boolean
     constructor(classname: string) {
+        /**
+         * ----------------------------------------------------------
+         * テストモード!!
+         *  ----------------------------------------------------------
+         */
+        this.testmode = false;
+
         this.debugintervalid = null;
         this.dummyelement = document.createElement('ul');
         this.dummydebug = document.createElement('ul')
@@ -129,7 +137,7 @@ class commentutl {
                 console.log((this.getnewcomments(dummyelement, 1).comment === "null" && this.getnewcomments(dummyelement, 1).name === "null"))
 
 
-                if (this.issimilarobj(this.last[1].data, this.getnewcomments(dummyelement, 1)) || this.issimilarobj(this.getnewcomments(dummyelement, 1), this.checknewcomment)) {//新規コメントが１件なら
+                if (this.issimilarobj(this.last[1].data, this.getnewcomments(dummyelement, 1)) || this.issimilarobj(this.getnewcomments(dummyelement, 1), Getcommentnull)) {//新規コメントが１件なら
 
                     resultdata.push(this.getnewcomments(dummyelement, 0));
                     this.last[1].data = this.getnewcomments(dummyelement, 0);
@@ -193,16 +201,43 @@ class commentutl {
         }
         return resultdata;
     }
-    getnewcomments(dummyelement: HTMLUListElement, id: number) {
-        const nameElement = dummyelement.children[id]?.children[1]?.children[0];
-        const commentElement = dummyelement.children[id]?.children[1]?.children[1];
-        const name: string = nameElement ? nameElement.innerHTML || 'null' : 'null';
-        const comment: string = commentElement ? commentElement.innerHTML || 'null' : 'null';
-        const result: resultgetcomnet = {
-            name: name,
-            comment: comment
+    getnewcomments(dummyelement: HTMLUListElement, id: number, testobj?: resultgetcomnet[]) {
+        if (this.testmode === false) {
+            const nameElement = dummyelement.children[id]?.children[1]?.children[0];
+            const commentElement = dummyelement.children[id]?.children[1]?.children[1];
+            const name: string = nameElement ? nameElement.innerHTML || 'null' : 'null';
+            const comment: string = commentElement ? commentElement.innerHTML || 'null' : 'null';
+            const result: resultgetcomnet = {
+                name: name,
+                comment: comment
+            }
+            return result;
+        } else if (this.testmode === true) {
+            if (testobj) {
+                const name: string = testobj[id].name || 'null'
+                const comment: string = testobj[id].comment || 'null'
+                const result: resultgetcomnet = {
+                    name: name,
+                    comment: comment
+                }
+                return result;
+            } else {
+                console.log("引数忘れてんぞ！！！");
+                throw new Error("引数忘れてんぞ！！！");
+                return {
+                    name: "null",
+                    comment: "null"
+                }
+            }
+            return {
+                name: "null",
+                comment: "null"
+            }
         }
-        return result;
+        return {
+            name: "null",
+            comment: "null"
+        }
     }
 
     debuglengh(waittime: number, debugws: boolean) {
@@ -239,6 +274,10 @@ class commentutl {
         } else {
             console.log("nullじゃねぇか！")
         }
+    }
+    test_mode() {
+
+
     }
     /**
      * オブジェクトが同じ要素がどうか比べる
