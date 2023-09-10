@@ -22,13 +22,32 @@ class commentutl {
          *  ----------------------------------------------------------
          */
         this.testmode = false;
-
         this.debugintervalid = null;
         this.dummyelement = document.createElement('ul');
         this.dummydebug = document.createElement('ul')
         this.elementpath = classname;
-
         this.last = { 1: { data: null, leng: 0 }, 2: { data: null } }
+        const isfoundelem = this.gethtmlchild();
+        if (isfoundelem !== null) {//初期値の判断
+            const firstelem = this.getnewcomments(isfoundelem, 0);
+            //エレメントが存在せずnullでない場合&コメントプレビューでなければ
+            if (firstelem.comment !== "null" && firstelem.name !== "null" && firstelem.comment !== "ここにコメントが表示されます") {
+                this.last[1].data = firstelem;
+                if (this.issimilarobj(this.getnewcomments(isfoundelem, 1), firstelem)) {
+                    const leng = isfoundelem.children.length
+                    let count = 0;
+                    for (let index = 1; index < leng; index++) {
+                        const elem = this.getnewcomments(isfoundelem, index);
+                        if (!(this.issimilarobj(elem, firstelem))) {
+                            break;
+                        }
+                        count++
+                    }
+                    this.last[1].leng = count;
+                }
+            }
+        }
+
 
         if (document.getElementsByClassName(this.elementpath)?.[0]?.innerHTML) {
             // let dummyelement = document.getElementsByTagName('ul');
